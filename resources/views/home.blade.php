@@ -1,8 +1,7 @@
-@extends('master')
+@extends('layouts.dashboard')
 @section('page_heading','Dashboard')
 @section('section')
-          
-            <!-- /.row -->
+           <!-- /.row -->
             <div class="col-sm-12">
             <div class="row">
                 <div class="col-lg-3 col-md-6">
@@ -95,5 +94,8 @@
                 </div>
             </div>
             <!-- /.row -->
+            
+            
+                <!-- /.col-lg-4 -->
             
 @stop

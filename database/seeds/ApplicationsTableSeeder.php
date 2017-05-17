@@ -29,8 +29,7 @@ class ApplicationsTableSeeder extends Seeder
             'mobile_phone' => $faker->phoneNumber,
             'email' => $faker->safeEmail,
             'workshop_name' => $faker->randomElement(
-              $array=array('Angular2','Laravel','VueJs')
-            ),
+              $array=array('Angular2','Laravel','VueJs')),
             'status' => 'pending',
             'created_at' => $faker->dateTimeThisYear($max='now'),
             'updated_at' => $faker->dateTimeThisMonth($max='now'), 

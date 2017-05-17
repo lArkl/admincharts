@@ -1,3 +1,8 @@
+@extends('layouts.dashboard')
+@section('page_heading','Charts')
+
+@section('section')
+<div class="col-sm-12">
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,8 +10,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>My Charts</title>
-
+        
         {!! Charts::assets() !!}
 
     </head>
@@ -16,3 +20,4 @@
         </center>
     </body>
 </html>
+@stop

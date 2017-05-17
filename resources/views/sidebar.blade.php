@@ -12,11 +12,27 @@
                 </div>
                 <!-- /input-group -->
             </li>
+            
             <li {{ (Request::is('/') ? 'class="active"' : '') }}>
-                <a href="{{ url ('dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                <a href="{{ url ('') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
-            <li {{ (Request::is('*charts') ? 'class="active"' : '') }}>
-                <a href="{{ url ('charts') }}"><i class="fa fa-bar-chart-o fa-fw"></i> Charts</a>
+
+            <li >
+                <a href="#"><i class="fa fa-table fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li {{ (Request::is('*charts')  ? 'class="active"' : '') }}>
+                        <a href="{{ url ('charts/applicationarea' ) }}">Applications by Month</a>
+                    </li>
+                    <li {{ (Request::is('*charts')  ? 'class="active"' : '') }}>
+                        <a href="{{ url('charts/workshoppie') }}">Workshop Pie</a>
+                    </li>
+                    <li {{ (Request::is('*charts') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('charts/workshoparea') }}">Workshops by Month</a>
+                    </li>
+                    <li {{ (Request::is('*charts')  ? 'class="active"' : '') }}>
+                        <a href="{{ url ('charts/workshopbars' ) }}">Workshop Bars</a>
+                    </li>
+                </ul>
                 <!-- /.nav-second-level -->
             </li>
             
@@ -24,7 +40,7 @@
                 <a href="#"><i class="fa fa-table fa-fw"></i> Tables<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
-                        <a href="{{ url ('tables' ) }}">Applications</a>
+                        <a href="{{ url ('applicationslist' ) }}">Applications</a>
                     </li>
                     <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
                         <a href="{{ url('#') }}">Workshops</a>
@@ -35,6 +51,7 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
+
             {{--
             <li>
                 <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>

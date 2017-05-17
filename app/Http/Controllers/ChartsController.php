@@ -1,49 +1,67 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Charts;
 use App\Application;
+use Illuminate\Http\Request;
+use Charts;
+use DB;
 
 class ChartsController extends Controller
 {
-    //public $protected_charts = ['admin_dashboard'];
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function Applicationarea()
     {
-        $labels=Application::groupBy('workshop_name')->pluck('workshop_name');
-        $workshops=collect([]);
-        foreach($labels as $label){
-            $datacount=Application::where('workshop_name',$label)->get()->count();
-            $workshops->push($datacount);
-        }
+        $chart = Charts::database(Application::all(), 'area', 'highcharts')
+        ->elementLabel("Applications")
+        ->title('Applications per Month')
+        //->dimensions(1000, 500)
+        ->responsive(false)
+        ->monthFormat('F Y')
+        ->lastByMonth(13,true);
+        return view('charts', ['chart' => $chart]);
+    }
 
-        $chart = 
-        /*Charts::database(Application::where('workshop_name','Laravel')->get(), 'line', 'chartjs')
-      ->elementLabel("Total")
-      ->dimensions(1000, 500)
-      ->responsive(false)->monthFormat('F')
-      ->groupByMonth('2016',true);
-*/
-         Charts::multiDatabase('line', 'material')
-    ->dataset($label[0], $workshops[0])
-    ->dataset($label[1], $workshops[1])
-    ->dimensions(1000, 500)
-      ->responsive(false)->monthFormat('F')
-      ->groupByMonth('2016',true);
-        /*$chart = Charts::create('bar', 'highcharts')
-             ->title('My nice chart')
-             ->elementLabel('My nice label')
-             ->labels($labels)
-             ->values($workshops)
-             ->responsive(true);
+    public function Acumulado()
+    {
+        $chart = Charts::database(Application::all(), 'bar', 'highcharts')
+        ->title('Applications per Month')
+        ->dataset('Applications', Application::all())
+        ->dataset('Total', $data->aggregateColumn('amount', 'sum'))
+        ->responsive(false)
+        ->monthFormat('F Y')
+        ->lastByMonth(13,true);
+        
+    }
+
+    public function Workshoppie()
+    { 
+        $chart = Charts::database(Application::all(), 'bar', 'highcharts')
+          ->title('Applications per Workshop')
+          ->elementLabel("Total")
+          //->dimensions(1000, 500)
+          ->responsive(false)
+          ->groupBy('workshop_name');
+          return view('charts', ['chart' => $chart]);
+    }
+
+    public function Workshoparea()
+    {
+        //$data = Application::select('applications.created_at', DB::raw('count(applications.id) as aggregate'))->groupBy(DB::raw('Date(applications.created_at)'))->get();
+        $chart = Charts::multiDatabase('areaspline', 'highcharts')
+        ->dataset('Laravel', Application::where('workshop_name','Laravel')->get())
+        ->dataset('VueJs', Application::where('workshop_name','VueJs')->get())
+        ->title('Application per Month per Workshop')
+        ->responsive(false)
+        ->monthFormat('F Y')
+        ->lastByMonth(13,true);
+        return view('charts', ['chart' => $chart]);
+
+              /*
+        Charts::multiDatabase('line', 'material')
+        ->dataset($label[0], $workshops[0])
+        ->dataset($label[1], $workshops[1])
+        ->dimensions(1000, 500)
+        ->responsive(false)->monthFormat('F')
+        ->groupByMonth('2016',true);
         */
         /*
         $chart = Charts::create('line', 'highcharts')
@@ -51,83 +69,44 @@ class ChartsController extends Controller
         ->labels(['First', 'Second', 'Third'])
         ->values([5,10,20])
         ->dimensions(0,500);
-*/
+        */
+    }
+
+    public function Workshopbars()
+    {
+        /*$workshops= DB::table('applications')
+                 ->select('workshop_name', DB::raw('count(*) as total'))
+                 ->groupBy('workshop_name')
+                 ->get();
+        $chart = Charts::create('bar', 'highcharts')
+        ->title('Workshop\'s applications')
+        ->elementLabel('Applications')
+        ->labels($workshops->pluck('workshop_name'))
+        ->values($workshops->pluck('total'))
+        ->responsive(true);*/
+        $chart = Charts::database(Application::all(), 'bar', 'highcharts')
+        ->title('Applications per Workshop')
+        ->elementLabel("Total")
+        ->responsive(false)
+        ->groupBy('workshop_name');
         return view('charts', ['chart' => $chart]);
     }
 
-    public function show($name, $height)
+    public function show($type)
     {
-        /*if (in_array($name, $this->protected_charts)) {
-            $this->checkProtected();
-        }*/
-        return view("charts.$name", ['height' => $height]);
-    }
+        if($type==='applicationarea'){
+          return $this->Applicationarea();
+        }
+        if($type==='workshoppie'){
+          return $this->Workshoppie();
+        }
+        if($type==='workshoparea'){
+          return $this->Workshoparea();
+        }
 
-    public function checkProtected()
-    {
-        if(!Auth::user()->admin) {
-            abort(404);
+        if($type==='workshopbars'){
+          return $this->Workshopbars();
         }
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+        
 }

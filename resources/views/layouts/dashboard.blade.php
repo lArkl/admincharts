@@ -14,7 +14,7 @@
             </div>
             <!-- /.navbar-header -->
 
-
+            @include('navbar')
             @include('sidebar')
             <div class="container">
                 @yield('content')
