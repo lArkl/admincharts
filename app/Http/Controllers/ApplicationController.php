@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Application;
+use App\Workshop;
 use Illuminate\Http\Request;
 use DB;
 class ApplicationController extends Controller
@@ -37,9 +38,10 @@ class ApplicationController extends Controller
 
     public function dashboard(Request $request)
     {
-        $nApps=Application::all()->count();
-        $nWork=Application::groupBy('workshop_name')->pluck('workshop_name')->count();
-        $nStatus=Application::where('status','pending')->count();
+        $nApps = Application::all()->count();
+        $nWork = Workshop::where('state_id',5)//->pluck('workshop_name')
+        ->count();
+        $nStatus=Application::where('state_id','pending')->count();
         return view('home')->with('nApps',$nApps)->with('nWork',$nWork)->with('nStatus',$nStatus);
     }
 
