@@ -13,7 +13,7 @@ class PersonalInformationTableSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
     	
-        for ($i=0; $i < 10; $i++) {
+        for ($i=0; $i < 15; $i++) {
     		DB::table('personal_information')->insert([
    	    	'first_name' => $faker->firstName,
    	    	'middle_name' => $faker->firstName,
@@ -28,7 +28,7 @@ class PersonalInformationTableSeeder extends Seeder
           'phone' => $faker->ean8,
 	        'email' => $faker->unique()->safeEmail,
 
-	        'user_id' => rand(1,10)
+	        'user_id' => $i+1
         	]);
     	}
     }

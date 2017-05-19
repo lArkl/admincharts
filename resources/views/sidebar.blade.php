@@ -21,17 +21,27 @@
                 <a href="#"><i class="fa fa-table fa-fw"></i> Charts<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li {{ (Request::is('*charts')  ? 'class="active"' : '') }}>
-                        <a href="{{ url ('charts/applicationarea' ) }}">Applications by Month</a>
+                        <a href="{{ url ('charts/applicationarea' ) }}">Applications per Month</a>
                     </li>
+                    <li {{ (Request::is('*charts')  ? 'class="active"' : '') }}>
+                        <a href="{{ url ('charts/categoryapparea' ) }}">Applications per Category</a>
+                    </li>
+
+                    <li {{ (Request::is('*charts') ? 'class="active"' : '') }}>
+                        <a href="{{ url ('charts/workshoparea') }}">Workshops per Month</a>
+                    </li>
+                    <li {{ (Request::is('*charts')  ? 'class="active"' : '') }}>
+                        <a href="{{ url ('charts/categoryarea' ) }}">Workshops per Category</a>
+                    </li>
+                    
                     <li {{ (Request::is('*charts')  ? 'class="active"' : '') }}>
                         <a href="{{ url('charts/workshoppie') }}">Workshop Pie</a>
                     </li>
-                    <li {{ (Request::is('*charts') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('charts/workshoparea') }}">Workshops by Month</a>
-                    </li>
+                    
                     <li {{ (Request::is('*charts')  ? 'class="active"' : '') }}>
                         <a href="{{ url ('charts/workshopbars' ) }}">Workshop Bars</a>
                     </li>
+                    
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
@@ -40,7 +50,7 @@
                 <a href="#"><i class="fa fa-table fa-fw"></i> Tables<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
-                        <a href="{{ url ('applicationslist' ) }}">Applications</a>
+                        <a href="{{ url ('applicationslist' ) }}">Users</a>
                     </li>
                     <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
                         <a href="{{ url('#') }}">Workshops</a>

@@ -56,7 +56,7 @@
                                     <i class="fa fa-hand-o-up fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">32</div>
+                                    <div class="huge">{{ $nWorkP }}</div>
                                     <div>New Workshop Requests!</div>
                                 </div>
                             </div>

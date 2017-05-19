@@ -15,12 +15,10 @@ class CategoriesTableSeeder extends Seeder
     	$values = array('business intelligence', 'big data', 'databases', 'virtualization', 'programming');
     	$subjects = array('workshop');
     	
-    	for ($i=0; $i < 10; $i++) { 
-    		$random_index = array_rand($keys);
-
+    	for ($i=0; $i < 5; $i++) { 
     		DB::table('categories')->insert([
-    		'key' => $keys[$random_index],
-   	    	'value' => $values[$random_index],
+    		'key' => $keys[$i],
+   	    	'value' => $values[$i],
        		'subject' => $subjects[0]
         	]);
     	}    

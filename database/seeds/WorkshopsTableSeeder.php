@@ -16,7 +16,7 @@ class WorkshopsTableSeeder extends Seeder
         $technologies = array('technology a', 'technology b', 'technology c', 'technology d');
         $releases = array('12', '2', '1.0.0', '18i');
 
-        for ($i=0; $i < 10; $i++) { 
+        for ($i=0; $i < 15; $i++) { 
         	DB::table('workshops')->insert([
         	'technology' => $technologies[array_rand($technologies)],
      		'release' => $releases[array_rand($releases)],
@@ -25,10 +25,11 @@ class WorkshopsTableSeeder extends Seeder
      		'catalog_image_url' => 'tinyurl.com/mo7vjbd',//$faker->imageUrl(800, 500),
      		'about_image_url' => 'tinyurl.com/mo7vjbd',//$faker->imageUrl(750, 500),
      		'state_id' => rand(1, 3),
-     		'program_id' => rand(1, 10),
+     		'program_id' => rand(1, 2),
      		'level_id' => rand(1, 10),
-     		'category_id' => rand(1, 10),
-     		'aspect_id' => rand(1, 10)
+     		'category_id' => rand(1, 5),
+     		'aspect_id' => rand(1, 10),
+            'created_at' => $faker->dateTimeThisYear($max='now')
           	]);
         }
     }

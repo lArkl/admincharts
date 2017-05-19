@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Application;
+use App\Workshop;
 use Illuminate\Http\Request;
 use Charts;
 use DB;
@@ -10,7 +11,9 @@ class ChartsController extends Controller
 {
     public function Applicationarea()
     {
-        $chart = Charts::database(Application::all(), 'area', 'highcharts')
+        $applications = Application::orderBy('application_date','desc')->get();
+        $chart = Charts::database($applications, 'area', 'highcharts')
+        ->dateColumn('application_date')
         ->elementLabel("Applications")
         ->title('Applications per Month')
         //->dimensions(1000, 500)
@@ -34,22 +37,65 @@ class ChartsController extends Controller
 
     public function Workshoppie()
     { 
-        $chart = Charts::database(Application::all(), 'bar', 'highcharts')
-          ->title('Applications per Workshop')
-          ->elementLabel("Total")
-          //->dimensions(1000, 500)
-          ->responsive(false)
-          ->groupBy('workshop_name');
-          return view('charts', ['chart' => $chart]);
+        /*$applications = Application::all();
+        $techs = collect([]);
+        foreach($applications as $application){
+            $techs ->put('technology',$application->workshop->technology);
+        }
+        $chart = Charts::database($techs, 'pie', 'highcharts')
+        //->data(Workshop::where('state_id',1)->get())*/
+        $chart = Charts::database(Application::all(), 'pie', 'highcharts')
+        ->title('Applications per Workshop')
+        ->elementLabel("Applications")
+        //->dimensions(1000, 500)
+        ->responsive(false)
+        ->groupBy('technology');
+        return view('charts', ['chart' => $chart]);
+    }
+
+    public function Categoryarea()
+    { 
+        $chart = Charts::multiDatabase('areaspline', 'highcharts')
+        ->dataset('Business Intelligence', Workshop::where('category_id',1)->get())
+        ->dataset('Big Data', Workshop::where('category_id',2)->get())
+        ->dataset('Databases', Workshop::where('category_id',3)->get())
+        ->dataset('Virtualization', Workshop::where('category_id',4)->get())
+        ->dataset('Programming', Workshop::where('category_id',5)->get())
+        ->title('Workshops per Category')
+        ->elementLabel("Workshops")
+        ->responsive(false)
+        ->monthFormat('F Y')
+        ->lastByMonth(13,true);
+        return view('charts', ['chart' => $chart]);
+    }
+
+    public function Categoryapparea()
+    { 
+        
+        //$applications = Application::all()->join('workshops','')
+        $chart = Charts::multiDatabase('areaspline', 'highcharts')
+        ->dataset('Business Intelligence', Application::where('category_id',1)->get())
+        ->dataset('Big Data', Workshop::where('category_id',2)->get())
+        ->dataset('Databases', Workshop::where('category_id',3)->get())
+        ->dataset('Virtualization', Workshop::where('category_id',4)->get())
+        ->dataset('Programming', Workshop::where('category_id',5)->get())
+        ->title('Applications per Category')
+        ->elementLabel("Workshops")
+        ->responsive(false)
+        ->monthFormat('F Y')
+        ->lastByMonth(13,true);
+        return view('charts', ['chart' => $chart]);
     }
 
     public function Workshoparea()
     {
         //$data = Application::select('applications.created_at', DB::raw('count(applications.id) as aggregate'))->groupBy(DB::raw('Date(applications.created_at)'))->get();
         $chart = Charts::multiDatabase('areaspline', 'highcharts')
-        ->dataset('Laravel', Application::where('workshop_name','Laravel')->get())
-        ->dataset('VueJs', Application::where('workshop_name','VueJs')->get())
-        ->title('Application per Month per Workshop')
+        ->dataset('Approved', Workshop::where('state_id',1)->get())
+        ->dataset('Rejected', Workshop::where('state_id',2)->get())
+        ->dataset('Pending', Workshop::where('state_id',3)->get())
+        ->title('Workshops per State')
+        ->elementLabel("Workshops")
         ->responsive(false)
         ->monthFormat('F Y')
         ->lastByMonth(13,true);
@@ -84,11 +130,11 @@ class ChartsController extends Controller
         ->labels($workshops->pluck('workshop_name'))
         ->values($workshops->pluck('total'))
         ->responsive(true);*/
-        $chart = Charts::database(Application::all(), 'bar', 'highcharts')
+        $chart = Charts::database(Application::all(),'bar', 'highcharts')
         ->title('Applications per Workshop')
         ->elementLabel("Total")
         ->responsive(false)
-        ->groupBy('workshop_name');
+        ->groupBy('technology');
         return view('charts', ['chart' => $chart]);
     }
 
@@ -107,6 +153,15 @@ class ChartsController extends Controller
         if($type==='workshopbars'){
           return $this->Workshopbars();
         }
+
+        if($type==='categoryarea'){
+          return $this->Categoryarea();
+        }
+
+        if($type==='categoryapparea'){
+          return $this->Categoryapparea();
+        }
+        
     }
         
 }
