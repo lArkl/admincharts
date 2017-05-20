@@ -13,7 +13,7 @@ class WorkshopsTableSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
 
-        $technologies = array('technology a', 'technology b', 'technology c', 'technology d');
+        $technologies = array('Laravel', 'VueJs', 'Angular4', 'UML');
         $releases = array('12', '2', '1.0.0', '18i');
 
         for ($i=0; $i < 15; $i++) { 

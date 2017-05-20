@@ -44,7 +44,10 @@ class ChartsController extends Controller
         }
         $chart = Charts::database($techs, 'pie', 'highcharts')
         //->data(Workshop::where('state_id',1)->get())*/
-        $chart = Charts::database(Application::all(), 'pie', 'highcharts')
+        $applications = DB::table('applications')->join('workshops',function($join){
+            $join->on('applications.workshop_id','=','workshops.id')->where('workshops.state_id','=',1);
+        })->select('applications.id','workshops.technology')->get();
+        $chart = Charts::database($applications, 'pie', 'highcharts')
         ->title('Applications per Workshop')
         ->elementLabel("Applications")
         //->dimensions(1000, 500)
@@ -72,13 +75,16 @@ class ChartsController extends Controller
     public function Categoryapparea()
     { 
         
-        //$applications = Application::all()->join('workshops','')
+        $applications = DB::table('applications')->join('workshops',function($join){
+            $join->on('applications.workshop_id','=','workshops.id')->where('workshops.state_id','=',1);
+        })->select('applications.id','workshops.category_id','applications.application_date')->get();
         $chart = Charts::multiDatabase('areaspline', 'highcharts')
-        ->dataset('Business Intelligence', Application::where('category_id',1)->get())
-        ->dataset('Big Data', Workshop::where('category_id',2)->get())
-        ->dataset('Databases', Workshop::where('category_id',3)->get())
-        ->dataset('Virtualization', Workshop::where('category_id',4)->get())
-        ->dataset('Programming', Workshop::where('category_id',5)->get())
+        ->dateColumn('application_date')
+        ->dataset('Business Intelligence',$applications->where('category_id','=',1))
+        ->dataset('Big Data', $applications->where('category_id','=',2))        
+        ->dataset('Databases', $applications->where('category_id','=',3))
+        ->dataset('Virtualization', $applications->where('category_id','=',4))
+        ->dataset('Programming', $applications->where('category_id','=',5))
         ->title('Applications per Category')
         ->elementLabel("Workshops")
         ->responsive(false)
@@ -130,9 +136,13 @@ class ChartsController extends Controller
         ->labels($workshops->pluck('workshop_name'))
         ->values($workshops->pluck('total'))
         ->responsive(true);*/
-        $chart = Charts::database(Application::all(),'bar', 'highcharts')
+        $applications = DB::table('applications')->join('workshops',function($join){
+            $join->on('applications.workshop_id','=','workshops.id')->where('workshops.state_id','=',1);
+        })->select('applications.id','workshops.technology')->get();
+        $chart = Charts::database($applications, 'bar', 'highcharts')
         ->title('Applications per Workshop')
-        ->elementLabel("Total")
+        ->elementLabel("Applications")
+        //->dimensions(1000, 500)
         ->responsive(false)
         ->groupBy('technology');
         return view('charts', ['chart' => $chart]);

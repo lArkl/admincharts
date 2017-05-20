@@ -19,6 +19,7 @@ Route::get('/', 'ApplicationController@dashboard');
 Route::get('/charts/{type}', 'ChartsController@show');
 
 Route::get('/applicationslist', 'ApplicationController@index');
+Route::get('/workshopslist', 'WorkshopController@index');
 
 Route::get('/forms', function()
 {

@@ -53,7 +53,7 @@
                         <a href="{{ url ('applicationslist' ) }}">Users</a>
                     </li>
                     <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
-                        <a href="{{ url('#') }}">Workshops</a>
+                        <a href="{{ url('workshopslist') }}">Workshops</a>
                     </li>
                     <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
                         <a href="{{ url ('panels') }}">Panels and Collapsibles</a>
