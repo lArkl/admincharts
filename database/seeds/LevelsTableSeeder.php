@@ -14,9 +14,9 @@ class LevelsTableSeeder extends Seeder
         $values = array('essentials', 'fundamentals', 'advanced', 'specialist', 'master');
     	$subjects = array('workshop');
     	
-    	for ($i=0; $i < 10; $i++) { 
+    	for ($i=0; $i < 5; $i++) { 
     		DB::table('levels')->insert([
-   	    	'value' => $values[array_rand($values)],
+   	    	'value' => $values[$i],
        		'subject' => $subjects[0]
         	]);
     	}

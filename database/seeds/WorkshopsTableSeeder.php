@@ -26,7 +26,7 @@ class WorkshopsTableSeeder extends Seeder
      		'about_image_url' => 'tinyurl.com/mo7vjbd',//$faker->imageUrl(750, 500),
      		'state_id' => rand(1, 3),
      		'program_id' => rand(1, 2),
-     		'level_id' => rand(1, 10),
+     		'level_id' => rand(1, 5),
      		'category_id' => rand(1, 5),
      		'aspect_id' => rand(1, 10),
             'created_at' => $faker->dateTimeThisYear($max='now')

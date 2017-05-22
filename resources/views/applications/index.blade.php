@@ -26,10 +26,12 @@
 					<td>{{$user->personal_information->document_number}}</td>
 					<td>{{$user->personal_information->email}}</td>
 					<td>
-						<a href="applications/{{$user->id}}/edit" class="btn btn-xs btn-danger">
+						<a href="users/{{$user->id}}/edit" class="btn btn-xs btn-danger">
 							<i class="glyphicon glyphicon-edit"></i>Edit</a>
-						<a href="applications/{{$user->document_number}}/show" class="btn btn-xs btn-warning">
+						@if(! $user->application->isEmpty())
+							<a href="applications/{{$user->personal_information->document_number}}/show" class="btn btn-xs btn-warning">
 							<i class="glyphicon glyphicon-list-alt"></i>Workshops</a>
+						@endif
 					</td>
 				</tr>
 			@endforeach

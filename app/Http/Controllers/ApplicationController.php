@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Application;
 use App\Workshop;
 use App\User;
+use App\PersonalInformation;
 use Illuminate\Http\Request;
 use DB;
 class ApplicationController extends Controller
@@ -34,9 +35,9 @@ class ApplicationController extends Controller
         } else
         {
             */
-            $users = User::paginate(8)->all();
+            $users = User::all();//::paginate(8)->all();
             //->unique('document_number');
-            return view('applicationlist') -> with('users', $users);
+            return view('applications.index') -> with('users', $users);
         //}
     }
 
@@ -44,8 +45,8 @@ class ApplicationController extends Controller
     {
         $nApps = Application::whereMonth('application_date',date('m'))->count();
         $nWork = Workshop::where('state_id',1)->count();
-        $nWorkP = Workshop::where('state_id',3)->count();
-        $nStatus=Application::where('state_id',7)->count();
+        $nWorkP = Workshop::where('state_id',2)->count();
+        $nStatus=Application::where('state_id',8)->count();
         return view('home')->with('nApps',$nApps)->with('nWork',$nWork)->with('nStatus',$nStatus)->with('nWorkP',$nWorkP);
     }
 
@@ -63,7 +64,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        //
+        return view('applications.create');
     }
 
     /**
@@ -74,7 +75,14 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /*$application = new Application();
+        $application->application_date //=;
+        $application->application_time //=;
+        $application->user_id //=
+        $application->workshop_id //= $request->workshop_name;
+        $application->state->id =8;
+        $application->save();
+        return redirect()->action('ApplicantController@index');*/
     }
 
     /**
@@ -83,9 +91,13 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($document)
     {
-        //
+        
+        $info = PersonalInformation::where('document_number', $document)->first();
+        $applications = Application::where('user_id',$info->user_id)->get();
+        return view('applications.show') -> with('applications', $applications)->with('user',$info);
+
     }
 
     /**
@@ -94,9 +106,10 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Application $application)
     {
-        //
+        $found_application = Application::where('id', $application->id)->first();
+        return view('applications.edit')->with('applicant', $found_application);
     }
 
     /**
@@ -106,9 +119,33 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Application $applicant)
     {
-        //
+        $found_applicant = Application::find($applicant->id);
+        //$found_applicantn->user_id =
+        $found_applicantion->workshop_id = $request->workshop_id;
+        $found_applicant->save();
+        return redirect()->action('ApplicationController@index');
+    }
+
+    public function postApprove($id) {
+        $application = Application::where('id', $id)->first();
+        if($application)
+        {
+            $application->state_id =7; //approved state_id
+            $application->save();
+            return redirect()->back();
+        }
+    }
+
+    public function postReject($id) {
+        $application = Application::where('id', $id)->first();
+        if($application)
+        {
+            $application->state_id =9;//rejected state_id
+            $application->save();
+            return redirect()->back();
+        }
     }
 
     /**
@@ -117,8 +154,18 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Application $application)
     {
-        //
+        $document = $application->user->personal_information->document_number;
+        Application::destroy($application->id);
+        $info = PersonalInformation::where('document_number', $document)->first()->user_id;
+        $applications = Application::where('user_id',$info)->get();
+        if($applications){
+            return redirect()->back();
+            //return view('applicants.show') -> with('applicants', $applications);
+        }
+        else{
+            return redirect()->action('ApplicantController@index');
+        }
     }
 }

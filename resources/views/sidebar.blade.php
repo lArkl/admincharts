@@ -50,10 +50,10 @@
                 <a href="#"><i class="fa fa-table fa-fw"></i> Tables<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
-                        <a href="{{ url ('applicationslist' ) }}">Users</a>
+                        <a href="{{ url ('users' ) }}">Users</a>
                     </li>
                     <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
-                        <a href="{{ url('workshopslist') }}">Workshops</a>
+                        <a href="{{ url('workshops') }}">Workshops</a>
                     </li>
                     <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
                         <a href="{{ url ('panels') }}">Panels and Collapsibles</a>

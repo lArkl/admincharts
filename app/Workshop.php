@@ -19,10 +19,10 @@ class Workshop extends Model
     }
 
     public function category(){
-    	return $this->belongsTo('App\Program');
+    	return $this->belongsTo('App\Category');
     }
 
     public function level(){
-    	return $this->belongsTo('App\Program');
+    	return $this->belongsTo('App\Level');
     }
 }

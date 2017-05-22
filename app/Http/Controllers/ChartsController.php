@@ -98,8 +98,8 @@ class ChartsController extends Controller
         //$data = Application::select('applications.created_at', DB::raw('count(applications.id) as aggregate'))->groupBy(DB::raw('Date(applications.created_at)'))->get();
         $chart = Charts::multiDatabase('areaspline', 'highcharts')
         ->dataset('Approved', Workshop::where('state_id',1)->get())
-        ->dataset('Rejected', Workshop::where('state_id',2)->get())
-        ->dataset('Pending', Workshop::where('state_id',3)->get())
+        ->dataset('Rejected', Workshop::where('state_id',3)->get())
+        ->dataset('Pending', Workshop::where('state_id',2)->get())
         ->title('Workshops per State')
         ->elementLabel("Workshops")
         ->responsive(false)

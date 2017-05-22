@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Workshop;
+use App\Application;
 use Illuminate\Http\Request;
 
 class WorkshopController extends Controller
@@ -13,8 +14,8 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $workshops = Workshop::paginate(8)->unique('technology');
-            return view('workshopslist') -> with('workshops', $workshops);
+        $workshops = Workshop::all();
+        return view('workshops.index') -> with('workshops', $workshops);
     }
 
     /**
@@ -46,7 +47,10 @@ class WorkshopController extends Controller
      */
     public function show($id)
     {
-        //
+        $applications = Application::where('workshop_id',$id)->get();
+        $workshop = Workshop::where('id',$id)->first();
+        return view('workshops.show') -> with('applications', $applications)
+        ->with('workshop',$workshop);
     }
 
     /**
@@ -72,14 +76,42 @@ class WorkshopController extends Controller
         //
     }
 
+    public function postApprove($id) {
+        $workshop = Workshop::where('id', $id)->first();
+        if($workshop)
+        {
+            $workshop->state_id =1; //approved state_id
+            $workshop->save();
+            return redirect()->back();
+        }
+    }
+
+    public function postReject($id) {
+        $workshop = Workshop::where('id', $id)->first();
+        if($workshop)
+        {
+            $workshop->state_id =3; //approved state_id
+            $workshop->save();
+            return redirect()->back();
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Workshop $workshop)
     {
-        //
+        $id = $workshop->id;
+        Workshop::destroy($workshop->id);
+        $workshops = Workshop::where('id',$id)->get();
+        if($workshops){
+            return redirect()->back();
+            //return view('applicants.show') -> with('applicants', $applications);
+        }
+        else{
+            return redirect()->action('WorkshopController@index');
+        }
     }
 }
