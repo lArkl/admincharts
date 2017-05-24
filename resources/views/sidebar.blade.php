@@ -53,11 +53,12 @@
                         <a href="{{ url ('users' ) }}">Users</a>
                     </li>
                     <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
-                        <a href="{{ url('workshops') }}">Workshops</a>
+                        <a href="{{ url('workshopsproposal') }}">Workshop Proposals</a>
                     </li>
-                    <li {{ (Request::is('*panels') ? 'class="active"' : '') }}>
-                        <a href="{{ url ('panels') }}">Panels and Collapsibles</a>
+                    <li {{ (Request::is('*tables')  ? 'class="active"' : '') }}>
+                        <a href="{{ url('workshopslist') }}">Active Workshops</a>
                     </li>
+                    
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

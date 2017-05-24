@@ -14,7 +14,13 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $workshops = Workshop::all();
+        $workshops = Workshop::orWhere('state_id',2)->orWhere('state_id',3)->get();
+        return view('workshops.index') -> with('workshops', $workshops);
+    }
+
+    public function list()
+    {
+        $workshops = Workshop::orWhere('state_id',1)->get();
         return view('workshops.index') -> with('workshops', $workshops);
     }
 

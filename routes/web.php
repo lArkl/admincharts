@@ -25,7 +25,8 @@ Route::post('applications/approve/{id}',array('uses' => 'ApplicationController@p
 Route::post('applicants/reject/{id}',array('uses' => 'ApplicationController@postReject', 'as' => 'application.reject'));
 
 Route::resource('workshops', 'WorkshopController');
-Route::get('workshops', 'WorkshopController@index');
+Route::get('workshopsproposal', 'WorkshopController@index');
+Route::get('workshopslist', 'WorkshopController@list');
 Route::get('/workshops/{id}/show', 'WorkshopController@show');
 Route::post('workshops/approve/{id}',array('uses' => 'WorkshopController@postApprove', 'as' => 'workshop.approve'));
 Route::post('workshops/reject/{id}',array('uses' => 'WorkshopController@postReject', 'as' => 'workshop.reject'));
