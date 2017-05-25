@@ -19,7 +19,9 @@ Route::get('/', 'ApplicationController@dashboard');
 Route::get('/charts/{type}', 'ChartsController@show');
 
 Route::resource('applications', 'ApplicationController');
-Route::get('users', 'ApplicationController@index');
+Route::resource('users', 'UserController');
+
+Route::get('users/{document}', 'ApplicationController@editUser');
 Route::get('/applications/{document}/show', 'ApplicationController@show');
 Route::post('applications/approve/{id}',array('uses' => 'ApplicationController@postApprove', 'as' => 'application.approve'));
 Route::post('applicants/reject/{id}',array('uses' => 'ApplicationController@postReject', 'as' => 'application.reject'));

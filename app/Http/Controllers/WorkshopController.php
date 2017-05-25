@@ -67,7 +67,8 @@ class WorkshopController extends Controller
      */
     public function edit($id)
     {
-        //
+        $found_workshop = Workshop::where('id', $id)->first();
+        return view('workshops.edit')->with('workshop', $found_workshop);
     }
 
     /**
@@ -79,7 +80,14 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $found_workshop = Workshop::where('id', $id)->first();
+
+        $found_workshop->technology = $request->technology;
+        $found_workshop->release = $request->release;
+        $found_workshop->description = $request->description;
+
+        $found_workshop->save();
+        return redirect()->back();
     }
 
     public function postApprove($id) {
@@ -110,6 +118,9 @@ class WorkshopController extends Controller
     public function destroy(Workshop $workshop)
     {
         $id = $workshop->id;
+        
+        //$deleteApplications = Application::where('workshop_id', $id)->delete();
+
         Workshop::destroy($workshop->id);
         $workshops = Workshop::where('id',$id)->get();
         if($workshops){

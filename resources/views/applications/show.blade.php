@@ -24,6 +24,7 @@
 	<th>Action</th>
 	</thead>
 	<tbody>
+	
 	@foreach($applications as $applicant)
 		<tr>
 			<td scope="row">{{$applicant->id}}</td>
@@ -32,16 +33,26 @@
 			<td>{{$applicant->state->value}}</td>
 			<td>
 				{{ Form::open([ 'route' => [ 'application.approve', $applicant->id ], 'method'  => 'post','style'=>'display:inline-block' ]) }}
-				{{ Form::hidden('id', $applicant->id) }}
-				{{ Form::button('<i class="glyphicon glyphicon-thumbs-up">Approve</i>', array('class'=>'btn btn-xs btn-success', 'type'=>'submit')) }}
+				
+					{{ Form::hidden('id', $applicant->id) }}
+
+					{{ Form::button('<i class="glyphicon glyphicon-thumbs-up">Approve</i>', array('class'=>'btn btn-xs btn-success', 'type'=>'submit')) }}
+
 				{{ Form::close() }}
+				
 				{{ Form::open([ 'route' => [ 'application.reject', $applicant->id ], 'method'  => 'post','style'=>'display:inline-block' ]) }}
-				{{ Form::hidden('id', $applicant->id) }}
-				{{ Form::button('<i class="glyphicon glyphicon-thumbs-down">Reject</i>', array('class'=>'btn btn-xs btn-warning', 'type'=>'submit')) }}
+				
+					{{ Form::hidden('id', $applicant->id) }}
+				
+					{{ Form::button('<i class="glyphicon glyphicon-thumbs-down">Reject</i>', array('class'=>'btn btn-xs btn-warning', 'type'=>'submit')) }}
 				{{ Form::close() }}
+				
 				{{ Form::open([ 'method'  => 'delete', 'route' => [ 'applications.destroy', $applicant->id ] ,'style'=>'display:inline-block']) }}
-				{{ Form::hidden('id', $applicant->id) }}
-				{{ Form::button('<i class="glyphicon glyphicon-remove-circle">Delete</i>', array('class'=>'btn btn-xs btn-danger', 'type'=>'submit')) }}
+					
+					{{ Form::hidden('id', $applicant->id) }}
+					
+					{{ Form::button('<i class="glyphicon glyphicon-remove-circle">Delete</i>', array('class'=>'btn btn-xs btn-danger', 'type'=>'submit')) }}
+				
 				{{ Form::close() }}
 
 			</td>

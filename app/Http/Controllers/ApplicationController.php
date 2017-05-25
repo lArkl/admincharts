@@ -168,4 +168,11 @@ class ApplicationController extends Controller
             return redirect()->action('ApplicantController@index');
         }
     }
+
+    public function editUser(User $user)
+    {
+        $found_user = User::where('id', $user->id)->first();
+        return view('users.edit')->with('user', $found_user);
+    }
+
 }
